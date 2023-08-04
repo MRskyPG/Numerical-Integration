@@ -2,18 +2,18 @@ package main
 
 import "math"
 
-type IntegrationSchemeInterval struct {
-	IntegrationScheme
+type IntegrationSchemeInterval interface {
+	CalculateIntegral(Begin *Point, End *Point, NumberOfSegments int, Func func(point *Point) float64) float64
 }
 
 //конструктор: на вход подаётся тип квадратурной формулы
 
-func NewIntegrationSchemeInterval(Type string) *IntegrationSchemeInterval {
+func NewIntegrationScheme(Type string) *IntegrationScheme {
 	//заполнение массивов точек и весов интегрирования
 	switch Type {
 	//схема метода Гаусс-3
 	case "Gauss3":
-		return &IntegrationSchemeInterval{IntegrationScheme{
+		return &IntegrationScheme{
 			Weight: []float64{
 				5.0 / 9.0, 8.0 / 9.0, 5.0 / 9.0,
 			},
@@ -25,10 +25,10 @@ func NewIntegrationSchemeInterval(Type string) *IntegrationSchemeInterval {
 				X: math.Sqrt(3.0 / 5.0), Y: 0, Z: 0,
 			}},
 			IntegrationSchemeType: Type,
-		}}
+		}
 		//схема метода трапеций
 	case "Trap":
-		return &IntegrationSchemeInterval{IntegrationScheme{
+		return &IntegrationScheme{
 			Weight: []float64{
 				1.0, 1.0,
 			},
@@ -39,9 +39,9 @@ func NewIntegrationSchemeInterval(Type string) *IntegrationSchemeInterval {
 			},
 			},
 			IntegrationSchemeType: Type,
-		}}
+		}
 	default:
-		return &IntegrationSchemeInterval{}
+		return &IntegrationScheme{}
 	}
 
 }
@@ -51,7 +51,7 @@ func NewIntegrationSchemeInterval(Type string) *IntegrationSchemeInterval {
 //NumOfSegments - число сегментов
 //Func - подынтегральная функция
 
-func (it *IntegrationSchemeInterval) CalculateIntegral(Begin *Point, End *Point, NumberOfSegments int, Func func(point *Point) float64) float64 {
+func (it *IntegrationScheme) CalculateIntegral(Begin *Point, End *Point, NumberOfSegments int, Func func(point *Point) float64) float64 {
 	//начальная точка сегмента
 	var x0 float64
 	//результат (квадратурная сумма)

@@ -16,8 +16,10 @@ func main() {
 	}
 
 	//Квадратурные формы
-	quadratureFormula1 := NewIntegrationSchemeInterval("Gauss3")
-	//quadratureFormula2 := NewIntegrationSchemeInterval("Trap")
+	var quadratureFormula1 IntegrationSchemeInterval
+	//var quadratureFormula2 IntegrationSchemeInterval
+	quadratureFormula1 = NewIntegrationScheme("Gauss3")
+	//quadratureFormula2 = NewIntegrationScheme("Trap")
 
 	//начало и конец отрезка интегрирования
 	begin := Point{1, 0, 0}

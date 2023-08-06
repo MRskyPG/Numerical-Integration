@@ -36,17 +36,18 @@ type IntegrationSchemeInterval interface {
     CalculateIntegral(Begin *Point, End *Point, NumberOfSegments int, Func func(point *Point) float64) float64
 }
 ```
----
+
 
 ## Вычисления
 
+---
+Метод CalculateIntegral для IntegrationScheme вычисляет, используя квадратурную формулу,  
+а также соответствующие узлы и веса для данной схемы интегрирования (метода).  
 **Квадратурная формула Гаусса принимает вид:**
 
 ![](images/gauss.png)
 ![](images/gauss_info.png)
 ![](images/formulas.png)
 
-Метод CalculateIntegral для IntegrationScheme вычисляет, используя квадратурную формулу,  
-а также соответствующие узлы и веса для данной схемы интегрирования (метода).
 ---
 by Mikhail Rogalsky.

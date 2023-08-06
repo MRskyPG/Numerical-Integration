@@ -18,8 +18,11 @@ func main() {
 	//Квадратурные формы
 	var quadratureFormula1 IntegrationSchemeInterval
 	//var quadratureFormula2 IntegrationSchemeInterval
-	quadratureFormula1 = NewIntegrationScheme("Gauss3")
-	//quadratureFormula2 = NewIntegrationScheme("Trap")
+
+	//Методы: Gauss1, Gauss2, ..., Gauss5, Trapezoid, Parabola
+	Type := "Gauss3"
+	quadratureFormula1 = NewIntegrationScheme(Type)
+	//quadratureFormula2 = NewIntegrationScheme("Trapezoid")
 
 	//начало и конец отрезка интегрирования
 	begin := Point{1, 0, 0}
@@ -36,9 +39,9 @@ func main() {
 	Ih := make([]float64, 3)
 
 	for i := 0; i < 3; i++ {
-		//Гаусс-3
+		//Гаусс
 		//I с текущим шагом i
-		fmt.Println("Метод Гаусса-3 вычисления определенного интеграла")
+		fmt.Printf(`Метод "%s" вычисления определенного интеграла`, Type)
 		I[i] = quadratureFormula1.CalculateIntegral(&begin, &end, numOfSegments*int(math.Pow(2.0, float64(i))), f)
 		Ih[i] = quadratureFormula1.CalculateIntegral(&begin, &end, numOfSegments*int(math.Pow(2.0, float64(i)))*2, f)
 
@@ -47,7 +50,7 @@ func main() {
 		//I[i] = quadratureFormula2.CalculateIntegral(&begin, &end, numOfSegments*int(math.Pow(2.0, float64(i))), f)
 		//Ih[i] = quadratureFormula2.CalculateIntegral(&begin, &end, numOfSegments*int(math.Pow(2.0, float64(i)))*2, f)
 
-		fmt.Printf("%d -------------------------------------------------\n", i+1)
+		fmt.Printf("\n%d -------------------------------------------------\n", i+1)
 		fmt.Printf("Для %d отрезков. Шаг h = %g\n", i+1, (end.X-begin.X)/(float64(numOfSegments)*math.Pow(2.0, float64(i))))
 		fmt.Printf("Значение по методу квадратур I = %g\n", I[i])
 		fmt.Printf("Абсолютная погрешность |I_true - I| = %g\n", math.Abs(trueIntegral-I[i]))

@@ -11,34 +11,80 @@ type IntegrationSchemeInterval interface {
 func NewIntegrationScheme(Type string) *IntegrationScheme {
 	//заполнение массивов точек и весов интегрирования
 	switch Type {
-	//схема метода Гаусс-3
+	//Методы Гаусса
+	case "Gauss1":
+		return &IntegrationScheme{
+			Weight: []float64{2.0},
+			Points: []Point{{0, 0, 0}},
+		}
+	case "Gauss2":
+		return &IntegrationScheme{
+			Weight: []float64{1.0, 1.0},
+			Points: []Point{
+				{-1.0 / math.Sqrt(3.0), 0, 0},
+				{1.0 / math.Sqrt(3.0), 0, 0},
+			},
+		}
 	case "Gauss3":
 		return &IntegrationScheme{
-			Weight: []float64{
-				5.0 / 9.0, 8.0 / 9.0, 5.0 / 9.0,
+			Weight: []float64{5.0 / 9.0, 8.0 / 9.0, 5.0 / 9.0},
+			Points: []Point{
+				{-(math.Sqrt(3.0 / 5.0)), 0, 0},
+				{0, 0, 0},
+				{math.Sqrt(3.0 / 5.0), 0, 0},
 			},
-			Points: []Point{{
-				X: -(math.Sqrt(3.0 / 5.0)), Y: 0, Z: 0,
-			}, {
-				X: 0, Y: 0, Z: 0,
-			}, {
-				X: math.Sqrt(3.0 / 5.0), Y: 0, Z: 0,
-			}},
 			IntegrationSchemeType: Type,
 		}
-		//схема метода трапеций
-	case "Trap":
+	case "Gauss4":
 		return &IntegrationScheme{
 			Weight: []float64{
-				1.0, 1.0,
+				(18.0 - math.Sqrt(30.0)) / 36.0,
+				(18.0 + math.Sqrt(30.0)) / 36.0,
+				(18.0 + math.Sqrt(30.0)) / 36.0,
+				(18.0 - math.Sqrt(30.0)) / 36.0,
 			},
-			Points: []Point{{
-				X: -1.0, Y: 0, Z: 0,
-			}, {
-				X: 1.0, Y: 0, Z: 0,
+			Points: []Point{
+				{-math.Sqrt((3.0 + 2.0*math.Sqrt(6.0/5.0)) / 7.0), 0, 0},
+				{-math.Sqrt((3.0 - 2.0*math.Sqrt(6.0/5.0)) / 7.0), 0, 0},
+				{math.Sqrt((3.0 - 2.0*math.Sqrt(6.0/5.0)) / 7.0), 0, 0},
+				{math.Sqrt((3.0 + 2.0*math.Sqrt(6.0/5.0)) / 7.0), 0, 0},
 			},
+		}
+	case "Gauss5":
+		return &IntegrationScheme{
+			Weight: []float64{
+				(322.0 - 13.0*math.Sqrt(70.0)) / 900.0,
+				(322.0 + 13.0*math.Sqrt(70.0)) / 900.0,
+				128.0 / 225.0,
+				(322.0 + 13.0*math.Sqrt(70.0)) / 900.0,
+				(322.0 - 13.0*math.Sqrt(70.0)) / 900.0,
+			},
+			Points: []Point{
+				{-math.Sqrt(5.0+2.0*math.Sqrt(10.0/7.0)) / 3.0, 0, 0},
+				{-math.Sqrt(5.0-2.0*math.Sqrt(10.0/7.0)) / 3.0, 0, 0},
+				{0, 0, 0},
+				{math.Sqrt(5.0-2.0*math.Sqrt(10.0/7.0)) / 3.0, 0, 0},
+				{math.Sqrt(5.0+2.0*math.Sqrt(10.0/7.0)) / 3.0, 0, 0},
+			},
+		}
+		//схема метода трапеций
+	case "Trapezoid":
+		return &IntegrationScheme{
+			Weight: []float64{1.0, 1.0},
+			Points: []Point{
+				{-1.0, 0, 0},
+				{1.0, 0, 0},
 			},
 			IntegrationSchemeType: Type,
+		}
+	case "Parabola":
+		return &IntegrationScheme{
+			Weight: []float64{1.0 / 3.0, 4.0 / 3.0, 1.0 / 3.0},
+			Points: []Point{
+				{1, 0, 0},
+				{0, 0, 0},
+				{-1, 0, 0},
+			},
 		}
 	default:
 		return &IntegrationScheme{}

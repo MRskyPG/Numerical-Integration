@@ -15,14 +15,12 @@ func main() {
 		return -math.Log(2.0)*point.X + math.Log(point.X)*point.X - point.X
 	}
 
-	//Квадратурные формы
+	//Квадратурная форма
 	var quadratureFormula1 IntegrationSchemeInterval
-	//var quadratureFormula2 IntegrationSchemeInterval
 
 	//Методы: Gauss1, Gauss2, ..., Gauss5, Trapezoid, Parabola
 	Type := "Gauss3"
 	quadratureFormula1 = NewIntegrationScheme(Type)
-	//quadratureFormula2 = NewIntegrationScheme("Trapezoid")
 
 	//начало и конец отрезка интегрирования
 	begin := Point{1, 0, 0}
@@ -39,7 +37,6 @@ func main() {
 	Ih := make([]float64, 3)
 
 	for i := 0; i < 3; i++ {
-		//I с текущим шагом i
 		fmt.Printf(`Метод "%s" вычисления определенного интеграла`, Type)
 		I[i] = quadratureFormula1.CalculateIntegral(&begin, &end, numOfSegments*int(math.Pow(2.0, float64(i))), f)
 		Ih[i] = quadratureFormula1.CalculateIntegral(&begin, &end, numOfSegments*int(math.Pow(2.0, float64(i)))*2, f)
